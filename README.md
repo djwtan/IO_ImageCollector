@@ -11,5 +11,3 @@ X11 Forwarding
 Export display
 
 > export DISPLAY=localhost:10.0
-
-## Starting

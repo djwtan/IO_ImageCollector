@@ -47,11 +47,16 @@ class Task:
 
         while True:
             try:
+                # save image
                 image = self.save_queue.get()
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
                 filepath = f"{dir}/{self.index}_{timestamp}.jpg"
                 cv2.imwrite(filepath, image)
+
+                # increase index
+                self.index += 1
                 CLI.printline(Level.INFO, "({:^10}) Image saved.".format(print_name))
+
             except Exception as e:
                 CLI.printline(Level.ERROR, "({:^10}) {}".format(print_name, e))
 
