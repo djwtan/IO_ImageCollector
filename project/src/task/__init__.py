@@ -28,6 +28,7 @@ class Task:
         GPIO.configure_pin(pin=self.PIN, mode=PinMode.INPUT, pullup=True, debouncing_time=50e-3)
 
         # counter
+        self.max_image = 10000
         self.index = 1
         self.save_queue = queue.Queue()
         self.display_queue = queue.Queue()
@@ -55,6 +56,14 @@ class Task:
 
                 # increase index
                 self.index += 1
+
+                # break at max image
+                if self.index > self.max_image:
+                    CLI.printline(
+                        Level.INFO, "({:^10}) {} Images collected. Exiting".format(print_name, self.max_image)
+                    )
+                    exit(1)
+
                 CLI.printline(Level.INFO, "({:^10}) Image saved.".format(print_name))
 
             except Exception as e:

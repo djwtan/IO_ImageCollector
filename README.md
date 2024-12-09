@@ -1,13 +1,34 @@
+## Hardware
+
+- Raspberry Pi 5
+- USB camera
+
 ## OS
 
-> 2024-11-19-raspios-bookworm-armhf-lite
+> raspios-bookworm-armhf-lite
 
 ## Setup:
 
-X11 Forwarding
+1. Configure X11 Forwarding
 
-> sudo apt install x11-apps
+```
+$ sudo apt install x11-apps
+```
 
-Export display
+2. Export display
 
-> export DISPLAY=localhost:10.0
+```
+$ export DISPLAY=localhost:10.0
+```
+
+3. Install dependencies
+
+```
+$ xargs -a requirements.txt sudo apt-get install -y
+```
+
+4. Run program
+
+```
+$ python main.py
+```
