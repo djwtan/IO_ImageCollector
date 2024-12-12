@@ -25,7 +25,7 @@ class Task:
     def __init__(self):
         # Configure pin
         self.PIN = 21
-        GPIO.configure_pin(pin=self.PIN, mode=PinMode.INPUT, pullup=True, debouncing_time=50e-3)
+        GPIO.configure_pin(pin=self.PIN, mode=PinMode.INPUT, pullup=False)
 
         # counter
         self.max_image = 10000
@@ -37,6 +37,12 @@ class Task:
     def __is_sensor_high(self) -> bool:
         # inverse pullup logic
         return not GPIO.read_input(self.PIN)
+
+    def __livefeed(self):
+        while True:
+            image = CAMERA.frame
+            cv2.imshow("feed", image)
+            cv2.waitKey(1)
 
     def __imsave_worker(self):
         dir = "images"
@@ -74,6 +80,7 @@ class Task:
 
         # start worker threads
         threading.Thread(target=self.__imsave_worker, daemon=True).start()
+        threading.Thread(target=self.__livefeed, daemon=True).start()
 
         CLI.printline(Level.INFO, "({:^10}) Start".format(print_name))
 
@@ -81,10 +88,6 @@ class Task:
             image = CAMERA.frame
 
             if image is not None:
-                # display
-                cv2.imshow("feed", image)
-                cv2.waitKey(1)
-
                 if not self.__is_sensor_high:
                     # reset
                     image_queued = False

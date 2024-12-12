@@ -32,3 +32,9 @@ $ xargs -a requirements.txt sudo apt-get install -y
 ```
 $ python main.py
 ```
+
+## Pull Image
+
+```
+$ scp -r tanpi@tanpi:~/project/images ./
+```
