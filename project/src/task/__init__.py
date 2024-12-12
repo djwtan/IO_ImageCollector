@@ -41,8 +41,9 @@ class Task:
     def __livefeed(self):
         while True:
             image = CAMERA.frame
-            cv2.imshow("feed", image)
-            cv2.waitKey(1)
+            if image is not None:
+                cv2.imshow("feed", image)
+                cv2.waitKey(1)
 
     def __imsave_worker(self):
         dir = "images"
